@@ -1,5 +1,6 @@
 import { User } from "../models/user";
 import { validateUser } from "../validator/user_validate";
+import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 
 export const signup = async (req: Request, res: Response) => {
@@ -8,8 +9,12 @@ export const signup = async (req: Request, res: Response) => {
 
   try {
     const { name, email } = req.body;
+
     const user = await new User(req.body);
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(user.password, salt);
     await user.save();
+
     const data = { name, email };
     return res.status(200).send({
       output: "sign up successfully",
