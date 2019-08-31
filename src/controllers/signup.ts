@@ -8,6 +8,8 @@ export const signup = async (req: Request, res: Response) => {
   if (error) return res.status(404).send({ error: error.details[0].message });
 
   try {
+    // finc if the user already exits
+    console.log(req.body);
     const { name, email } = req.body;
 
     const user = await new User(req.body);

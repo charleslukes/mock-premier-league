@@ -20,6 +20,8 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (error)
         return res.status(404).send({ error: error.details[0].message });
     try {
+        // finc if the user already exits
+        console.log(req.body);
         const { name, email } = req.body;
         const user = yield new user_1.User(req.body);
         const salt = yield bcrypt_1.default.genSalt(10);
