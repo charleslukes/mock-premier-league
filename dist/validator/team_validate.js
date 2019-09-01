@@ -14,7 +14,8 @@ exports.validateTeam = (input) => {
             .email()
             .required(),
         coach: joi_1.default.string()
-            .email()
+            .min(3)
+            .max(255)
             .required(),
         country: joi_1.default.string()
             .min(3)

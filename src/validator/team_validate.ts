@@ -10,7 +10,8 @@ export const validateTeam = (input: object) => {
       .email()
       .required(),
     coach: Joi.string()
-      .email()
+      .min(3)
+      .max(255)
       .required(),
     country: Joi.string()
       .min(3)

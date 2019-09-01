@@ -12,7 +12,10 @@ if (!config.get("jwtPrivateKey")) {
   process.exit(1);
 }
 mongoose
-  .connect("mongodb://localhost/premier", { useNewUrlParser: true })
+  .connect("mongodb://localhost/premier", {
+    useNewUrlParser: true,
+    useFindAndModify: false
+  })
   .then(() => console.log("connected to mongodb..."))
   .catch(err => console.log({ error: err.message }));
 
