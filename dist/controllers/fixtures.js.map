@@ -1,0 +1,1 @@
+{"version":3,"file":"fixtures.js","sourceRoot":"","sources":["../../src/controllers/fixtures.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,iDAA6C;AAGhC,QAAA,aAAa,GAAG,CAAO,GAAY,EAAE,GAAa,EAAE,EAAE;IACjE,MAAM,QAAQ,GAAG,MAAM,kBAAO,CAAC,IAAI,EAAE,CAAC;IAEtC,GAAG,CAAC,IAAI,CAAC,QAAQ,CAAC,CAAC;AACrB,CAAC,CAAA,CAAC;AAEW,QAAA,eAAe,GAAG,CAAO,GAAY,EAAE,GAAa,EAAE,EAAE,kDAAE,CAAC,CAAA,CAAC"}
