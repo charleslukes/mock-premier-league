@@ -7,7 +7,12 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const index_1 = __importDefault(require("./routes/index"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const config_1 = __importDefault(require("config"));
 const app = express_1.default();
+if (!config_1.default.get("jwtPrivateKey")) {
+    console.error("Fatal Error: jwtPrivateKey is not defined");
+    process.exit(1);
+}
 mongoose_1.default
     .connect("mongodb://localhost/premier", { useNewUrlParser: true })
     .then(() => console.log("connected to mongodb..."))

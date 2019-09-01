@@ -2,8 +2,14 @@ import express from "express";
 import mongoose from "mongoose";
 import usersRoute from "./routes/index";
 import bodyParser from "body-parser";
+import config from "config";
+
 const app = express();
 
+if (!config.get("jwtPrivateKey")) {
+  console.error("Fatal Error: jwtPrivateKey is not defined");
+  process.exit(1);
+}
 mongoose
   .connect("mongodb://localhost/premier", { useNewUrlParser: true })
   .then(() => console.log("connected to mongodb..."))

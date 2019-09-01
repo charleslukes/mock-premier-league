@@ -26,12 +26,18 @@
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/config": "0.0.34",
+    "@types/dotenv": "^6.1.1",
     "@types/joi": "^14.3.3",
+    "@types/jsonwebtoken": "^8.3.3",
     "@types/mongoose": "^5.5.16",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
+    "config": "^3.2.2",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "joi": "^14.3.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.6.11",
     "ts-mongoose": "0.0.19"
   }
