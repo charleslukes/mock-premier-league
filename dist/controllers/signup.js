@@ -20,15 +20,18 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (error)
         return res.status(404).send({ error: error.details[0].message });
     try {
-        // finc if the user already exits
-        console.log(req.body);
+        // find if the user already exits
         const { name, email } = req.body;
-        const user = yield new user_1.User(req.body);
+        let user = yield user_1.User.findOne({ email });
+        if (user)
+            return res.status(400).send(`Email already in use`);
+        user = yield new user_1.User(req.body);
         const salt = yield bcrypt_1.default.genSalt(10);
         user.password = yield bcrypt_1.default.hash(user.password, salt);
         yield user.save();
         const data = { name, email };
-        return res.status(200).send({
+        const token = user.getAuthToken();
+        res.header("x-auth-token", token).send({
             output: "sign up successfully",
             data
         });
