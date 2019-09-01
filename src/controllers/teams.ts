@@ -46,3 +46,12 @@ export const create_teams = async (req: Request, res: Response) => {
 
   res.send({ message: `Team ${name} created succesfully` });
 };
+
+export const update_team = async (req: Request, res: Response) => {
+  try {
+    const updateTeam = await Team.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).send(`Team ${updateTeam.name} is updated succesfully`);
+  } catch (error) {
+    res.status(400).send(`update failed :()`);
+  }
+};

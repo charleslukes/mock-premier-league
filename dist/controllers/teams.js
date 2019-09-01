@@ -42,4 +42,13 @@ exports.create_teams = (req, res) => __awaiter(void 0, void 0, void 0, function*
     yield newTeam.save();
     res.send({ message: `Team ${name} created succesfully` });
 });
+exports.update_team = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updateTeam = yield teams_1.Team.findByIdAndUpdate(req.params.id, req.body);
+        res.status(200).send(`Team ${updateTeam.name} is updated succesfully`);
+    }
+    catch (error) {
+        res.status(400).send(`update failed :()`);
+    }
+});
 //# sourceMappingURL=teams.js.map
