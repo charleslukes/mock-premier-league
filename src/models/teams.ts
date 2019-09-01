@@ -10,4 +10,4 @@ const TeamSchema = createSchema({
   stadium_capacity: Type.string()
 });
 
-export const User = typedModel("Team", TeamSchema);
+export const Team = typedModel("Team", TeamSchema);

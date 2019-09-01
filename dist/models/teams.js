@@ -10,5 +10,5 @@ const TeamSchema = ts_mongoose_1.createSchema({
     stadium_name: ts_mongoose_1.Type.string(),
     stadium_capacity: ts_mongoose_1.Type.string()
 });
-exports.User = ts_mongoose_1.typedModel("Team", TeamSchema);
+exports.Team = ts_mongoose_1.typedModel("Team", TeamSchema);
 //# sourceMappingURL=teams.js.map
