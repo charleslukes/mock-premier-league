@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ts_mongoose_1 = require("ts-mongoose");
 const TeamSchema = ts_mongoose_1.createSchema({
     name: ts_mongoose_1.Type.string(),
-    team_email: ts_mongoose_1.Type.string(),
+    email: ts_mongoose_1.Type.string(),
     coach: ts_mongoose_1.Type.string(),
     country: ts_mongoose_1.Type.string(),
     founded: ts_mongoose_1.Type.number(),

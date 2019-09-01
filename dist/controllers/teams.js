@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const teams_1 = require("../models/teams");
+const team_validate_1 = require("../validator/team_validate");
 exports.view_teams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const teams = yield teams_1.Team.find().sort({ name: 1 });
@@ -18,5 +19,27 @@ exports.view_teams = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     catch (error) {
         res.status(400).send({ error: error.message });
     }
+});
+exports.create_teams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // since only the admin can create team I need to get the token of the user
+    // but do this in a middleware and place it in your routes
+    const { error } = team_validate_1.validateTeam(req.body);
+    if (error)
+        return res.status(400).send(error.details[0].message);
+    const { name, email, coach, country, founded, stadium_name, stadium_capacity } = req.body;
+    const checkTeam = yield teams_1.Team.findOne({ email });
+    if (checkTeam)
+        return res.status(404).send({ message: `Email already in use` });
+    const newTeam = yield new teams_1.Team({
+        name,
+        email,
+        coach,
+        country,
+        founded,
+        stadium_name,
+        stadium_capacity
+    });
+    yield newTeam.save();
+    res.send({ message: `Team ${name} created succesfully` });
 });
 //# sourceMappingURL=teams.js.map
