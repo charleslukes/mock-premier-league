@@ -51,4 +51,13 @@ exports.update_team = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(400).send(`update failed :()`);
     }
 });
+exports.delete_team = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deleteTeam = yield teams_1.Team.findByIdAndDelete({ _id: req.params.id });
+        res.status(200).send(`Team ${deleteTeam.name} is deleted succesfully`);
+    }
+    catch (error) {
+        res.status(400).send(`delete failed :()`);
+    }
+});
 //# sourceMappingURL=teams.js.map

@@ -55,3 +55,12 @@ export const update_team = async (req: Request, res: Response) => {
     res.status(400).send(`update failed :()`);
   }
 };
+
+export const delete_team = async (req: Request, res: Response) => {
+  try {
+    const deleteTeam = await Team.findByIdAndDelete({ _id: req.params.id });
+    res.status(200).send(`Team ${deleteTeam.name} is deleted succesfully`);
+  } catch (error) {
+    res.status(400).send(`delete failed :()`);
+  }
+};
