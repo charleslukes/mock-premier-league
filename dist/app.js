@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const index_1 = __importDefault(require("./routes/index"));
+const team_1 = __importDefault(require("./routes/team"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const config_1 = __importDefault(require("config"));
 const app = express_1.default();
@@ -22,6 +23,7 @@ app.use(body_parser_1.default.urlencoded({ extended: false }));
 // parse application/json
 app.use(body_parser_1.default.json());
 app.use("/", index_1.default);
+app.use("/", team_1.default);
 const port = 3005;
 app.listen(port, err => {
     if (err) {

@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import usersRoute from "./routes/index";
+import teamRoute from "./routes/team";
 import bodyParser from "body-parser";
 import config from "config";
 
@@ -21,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use("/", usersRoute);
+app.use("/", teamRoute);
 
 const port = 3005;
 app.listen(port, err => {
