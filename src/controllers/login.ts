@@ -12,5 +12,6 @@ export const login = async (req: Request, res: Response) => {
     return res.status(404).send({ message: "invalid password" });
 
   // remeber you need to send a token in the request header
-  return res.status(200).send({ message: `welcome ${checkUser.name}` });
+  const token = checkUser.getAuthToken();
+  return res.status(200).send({ message: `${token}` });
 };
