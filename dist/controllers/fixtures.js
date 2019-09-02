@@ -26,7 +26,7 @@ exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, functi
         return res.status(400).send(`home Team doesn't exits`);
     const away = yield teams_1.Team.findById(awayTeam).select({ name: 1, coach: 1 });
     if (!away)
-        return res.status(400).send(`home Team doesn't exits`);
+        return res.status(400).send(`away Team doesn't exits`);
     try {
         const fixture = yield new fixtures_1.Fixture({
             homeTeam,
@@ -42,6 +42,24 @@ exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
     catch (error) {
         return res.status(400).send({ Error: error.message });
+    }
+});
+exports.update_fixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updateTeam = yield fixtures_1.Fixture.findByIdAndUpdate({ _id: req.params.id }, req.body);
+        res.status(200).send(`Fixture ${updateTeam._id} is updated succesfully`);
+    }
+    catch (error) {
+        res.status(400).send(`update failed :()`);
+    }
+});
+exports.delete_fixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const deleteTeam = yield fixtures_1.Fixture.findByIdAndDelete({ _id: req.params.id });
+        res.status(200).send(`Fixture ${deleteTeam._id} is deleted succesfully`);
+    }
+    catch (error) {
+        res.status(400).send(`delete failed :()`);
     }
 });
 exports.getFixture = (req, res) => {

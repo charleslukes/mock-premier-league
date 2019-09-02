@@ -6,7 +6,6 @@ import {
 } from "../controllers/fixtures";
 
 const router = Router();
-
 router
   .get("/", view_fixtures)
   .get("/one", getFixture)
