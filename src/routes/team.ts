@@ -1,4 +1,6 @@
 import { Router } from "express";
+import auth from "../middleware/auth";
+import admin from "../middleware/admin";
 import {
   view_teams,
   create_teams,
@@ -8,9 +10,9 @@ import {
 const router = Router();
 
 router
-  .get("/", view_teams)
-  .post("/", create_teams)
-  .put("/:id", update_team)
-  .delete("/:id", delete_team);
+  .get("/", auth, view_teams)
+  .post("/",[auth, admin], create_teams)
+  .put("/:id", [auth, admin], update_team)
+  .delete("/:id",[auth, admin], delete_team);
 
 export default router;

@@ -4,9 +4,30 @@ import { validateFixture } from "../validator/fixture_validate";
 import { Request, Response } from "express";
 
 export const view_fixtures = async (req: Request, res: Response) => {
-  const fixtures = await Fixture.find();
+  const fixtures = await Fixture.find().populate(
+    "homeTeam awayTeam",
+    "name coach -_id"
+  );
 
-  res.send(fixtures);
+  res.status(200).send(fixtures);
+};
+
+export const view_completed_fixtures = async (req: Request, res: Response) => {
+  const completedFixtures = await Fixture.find({ played: true }).populate(
+    "homeTeam awayTeam",
+    "name coach -_id"
+  );
+
+  res.status(200).send(completedFixtures);
+};
+
+export const view_pending_fixtures = async (req: Request, res: Response) => {
+  const pendingFixtures = await Fixture.find({ played: false }).populate(
+    "homeTeam awayTeam",
+    "name coach -_id"
+  );
+
+  res.status(200).send(pendingFixtures);
 };
 
 export const create_fixtures = async (req: Request, res: Response) => {

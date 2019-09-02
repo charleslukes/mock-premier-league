@@ -1,8 +1,8 @@
 import { createSchema, Type, typedModel } from "ts-mongoose";
 
 const FixtureSchema = createSchema({
-  homeTeam: Type.objectId(),
-  awayTeam: Type.objectId(),
+  homeTeam: Type.objectId({ ref: "Team" }),
+  awayTeam: Type.objectId({ ref: "Team" }),
   homeScore: Type.number({ default: 0 }),
   awayScore: Type.number({ default: 0 }),
   time: Type.string(),
