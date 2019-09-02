@@ -1,9 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const fixture_1 = __importDefault(require("./fixture"));
+const team_1 = __importDefault(require("./team"));
+const user_1 = __importDefault(require("./user"));
 const express_1 = require("express");
-const login_1 = require("../controllers/login");
-const signup_1 = require("../controllers/signup");
 const router = express_1.Router();
-router.post("/api/user/signup", signup_1.signup).post("/api/user/login", login_1.login);
+router.use("/fixtures", fixture_1.default);
+router.use("/teams", team_1.default);
+router.use("/users", user_1.default);
 exports.default = router;
 //# sourceMappingURL=index.js.map

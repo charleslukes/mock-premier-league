@@ -1,6 +1,6 @@
 import { createSchema, Type, typedModel } from "ts-mongoose";
 
-const TeamSchema = createSchema({
+export const TeamSchema = createSchema({
   name: Type.string(),
   email: Type.string(),
   coach: Type.string(),

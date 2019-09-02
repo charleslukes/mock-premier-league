@@ -1,13 +1,13 @@
 import { createSchema, Type, typedModel } from "ts-mongoose";
-import { Team } from "./teams";
 
 const FixtureSchema = createSchema({
-  home: Type.schema().of(Team),
-  away: Type.schema().of(Team),
-  date: Type.date(),
-  score: Type.optionalObject(),
+  homeTeam: Type.objectId(),
+  awayTeam: Type.objectId(),
+  homeScore: Type.number(),
+  awayScore: Type.number(),
+  time: Type.string(),
   stadium: Type.string(),
-  played: Type.optionalBoolean()
+  played: Type.optionalBoolean({ default: false })
 });
 
 export const Fixture = typedModel("Fixture", FixtureSchema);

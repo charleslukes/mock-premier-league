@@ -1,8 +1,11 @@
+import fixturesRouter from "./fixture";
+import teamRouter from "./team";
+import userRouter from "./user";
 import { Router } from "express";
-import { login } from "../controllers/login";
-import { signup } from "../controllers/signup";
-const router = Router();
 
-router.post("/api/user/signup", signup).post("/api/user/login", login);
+const router = Router();
+router.use("/fixtures", fixturesRouter);
+router.use("/teams", teamRouter);
+router.use("/users", userRouter);
 
 export default router;
