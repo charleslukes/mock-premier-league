@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const routes_1 = __importDefault(require("./routes"));
+const index_1 = __importDefault(require("./db/index"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const config_1 = __importDefault(require("config"));
 const app = express_1.default();
@@ -18,7 +19,10 @@ mongoose_1.default
     useNewUrlParser: true,
     useFindAndModify: false
 })
-    .then(() => console.log("connected to mongodb..."))
+    .then(() => {
+    index_1.default();
+    console.log("connected to mongodb...");
+})
     .catch(err => console.log({ error: err.message }));
 // parse application/x-www-form-urlencoded
 app.use(body_parser_1.default.urlencoded({ extended: false }));

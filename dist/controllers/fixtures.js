@@ -70,6 +70,7 @@ exports.delete_fixture = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(400).send(`delete failed :()`);
     }
 });
+// I have not touched this yet
 exports.getFixture = (req, res) => {
     const { id } = req.query;
     const fixture = fixtures_1.Fixture.findById({ id }).exec;

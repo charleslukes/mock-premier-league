@@ -89,6 +89,7 @@ export const delete_fixture = async (req: Request, res: Response) => {
   }
 };
 
+// I have not touched this yet
 export const getFixture = (req: Request, res: Response) => {
   const { id } = req.query;
   const fixture = Fixture.findById({ id }).exec;

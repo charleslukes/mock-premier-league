@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import apiRouter from "./routes";
+import seedDb from "./db/index";
 import bodyParser from "body-parser";
 import config from "config";
 
@@ -15,7 +16,10 @@ mongoose
     useNewUrlParser: true,
     useFindAndModify: false
   })
-  .then(() => console.log("connected to mongodb..."))
+  .then(() => {
+    seedDb();
+    console.log("connected to mongodb...");
+  })
   .catch(err => console.log({ error: err.message }));
 
 // parse application/x-www-form-urlencoded
