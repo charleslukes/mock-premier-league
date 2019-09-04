@@ -6,16 +6,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const routes_1 = __importDefault(require("./routes"));
-const index_1 = __importDefault(require("../db/index"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const index_1 = __importDefault(require("./db/index"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const config_1 = __importDefault(require("config"));
+dotenv_1.default.config();
 const app = express_1.default();
 if (!config_1.default.get("jwtPrivateKey")) {
     console.error("Fatal Error: jwtPrivateKey is not defined");
     process.exit(1);
 }
+const connectionString = process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
 mongoose_1.default
-    .connect("mongodb://localhost/premier", {
+    .connect(connectionString, {
     useNewUrlParser: true,
     useFindAndModify: false
 })
@@ -36,4 +39,5 @@ app.listen(port, err => {
     }
     return console.log(`server running at port ${port}`);
 });
+exports.default = app;
 //# sourceMappingURL=app.js.map
