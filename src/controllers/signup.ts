@@ -21,6 +21,10 @@ export const signup = async (req: Request, res: Response) => {
 
     const data = { name, email };
     const token = user.getAuthToken();
+    
+    //saves the users token to my redis store
+    req.session.key = token;
+
     res.header("x-auth-token", token).send({
       output: "sign up successfully",
       data

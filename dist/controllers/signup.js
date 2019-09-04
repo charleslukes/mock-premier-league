@@ -31,6 +31,8 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         yield user.save();
         const data = { name, email };
         const token = user.getAuthToken();
+        //saves the users token to my redis store
+        req.session.key = token;
         res.header("x-auth-token", token).send({
             output: "sign up successfully",
             data

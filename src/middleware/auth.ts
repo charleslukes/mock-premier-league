@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import config from "config";
 import { Request, Response, NextFunction } from "express";
 function auth(req: Request, res: Response, next: NextFunction) {
-  const token = req.header("x-auth-token");
+  if (!req.session.key) {
+    console.log(`hey!!!`);
+    return res.send(`session over, pls login again`);
+  }
+  const token = req.session.key;
   if (!token) return res.status(401).send("access denied no token provided");
   try {
     const decoded = jwt.verify(token, config.get("jwtPrivateKey"));

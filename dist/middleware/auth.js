@@ -6,7 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("config"));
 function auth(req, res, next) {
-    const token = req.header("x-auth-token");
+    if (!req.session.key) {
+        console.log(`hey!!!`);
+        return res.send(`session over, pls login again`);
+    }
+    const token = req.session.key;
     if (!token)
         return res.status(401).send("access denied no token provided");
     try {

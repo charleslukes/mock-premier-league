@@ -24,6 +24,8 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(404).send({ message: "invalid password" });
     // remeber you need to send a token in the request header
     const token = checkUser.getAuthToken();
+    //save their session token when they login
+    req.session.key = token;
     res.header("x-auth-token", token);
     return res.status(200).send({ message: `Welcome ${checkUser.name}` });
 });
