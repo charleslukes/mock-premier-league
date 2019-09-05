@@ -24,7 +24,9 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { name, email } = req.body;
         let user = yield user_1.User.findOne({ email });
         if (user)
-            return res.status(400).send(`Email already in use`);
+            return res
+                .status(400)
+                .send({ data: { message: `Email already in use` } });
         user = yield new user_1.User(req.body);
         const salt = yield bcrypt_1.default.genSalt(10);
         user.password = yield bcrypt_1.default.hash(user.password, salt);
@@ -33,16 +35,19 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const token = user.getAuthToken();
         //saves the users token to my redis store
         req.session.key = token;
-        res.header("x-auth-token", token).send({
+        res.send({
             output: "sign up successfully",
-            data
+            data,
+            token
         });
     }
     catch (error) {
         const { message } = error;
         return res.status(400).send({
-            output: "sign up failed",
-            message
+            data: {
+                output: "sign up failed",
+                message
+            }
         });
     }
 });

@@ -16,8 +16,17 @@ const supertest_1 = __importDefault(require("supertest"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("../app"));
 const user_1 = require("../models/user");
+let user;
 beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield user_1.User.deleteMany({});
+}));
+beforeEach(() => __awaiter(void 0, void 0, void 0, function* () {
+    user = yield supertest_1.default(app_1.default)
+        .post("/api/users/login")
+        .send({
+        email: "charles@gmail.com",
+        password: "pass123456"
+    });
 }));
 afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
@@ -98,19 +107,39 @@ describe("Login Routes", () => {
     });
 });
 describe("Fixtures Routes", () => {
-    it("Authenticated users should see fixtures", () => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield supertest_1.default(app_1.default)
-            .post("/api/users/login")
-            .send({
-            email: "charles@gmail.com",
-            password: "pass123456"
-        });
-        console.log(user.data, user.body);
+    it("Authenticated users should see fixtures", () => {
         return supertest_1.default(app_1.default)
             .get("/api/fixtures")
             .expect("Content-Type", /json/)
             .set("Authorization", `Bearer ${user.body.data.token}`)
             .expect(200);
-    }));
+    });
+    it("Users not logged in should not see fixtures", () => {
+        return supertest_1.default(app_1.default)
+            .get("/api/fixtures")
+            .expect("Content-Type", /json/)
+            .expect(400);
+    });
+    it("UnAuthorized Users should not see fixtures", () => {
+        return supertest_1.default(app_1.default)
+            .get("/api/fixtures")
+            .expect("Content-Type", /json/)
+            .set("Authorization", `abcd`)
+            .expect(401);
+    });
+    it("Users should see completed fixtures", () => {
+        const token = user.body.data.token;
+        return supertest_1.default(app_1.default)
+            .get("/api/complete")
+            .set("Authorization", `Bearer ${token}`)
+            .expect(200);
+    });
+    it("Users should see pending fixtures", () => {
+        // console.log(user.body);
+        return supertest_1.default(app_1.default)
+            .get("/api/complete")
+            .set("Authorization", `Bearer ${user.data.token}`)
+            .expect(200);
+    });
 });
-//# sourceMappingURL=index_routes.js.map
+//# sourceMappingURL=users.js.map

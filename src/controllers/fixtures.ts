@@ -18,7 +18,7 @@ export const view_completed_fixtures = async (req: Request, res: Response) => {
     "name coach -_id"
   );
 
-  res.status(200).send(completedFixtures);
+  res.status(200).json(completedFixtures);
 };
 
 export const view_pending_fixtures = async (req: Request, res: Response) => {
@@ -27,7 +27,7 @@ export const view_pending_fixtures = async (req: Request, res: Response) => {
     "name coach -_id"
   );
 
-  res.status(200).send(pendingFixtures);
+  res.status(200).json(pendingFixtures);
 };
 
 export const create_fixtures = async (req: Request, res: Response) => {

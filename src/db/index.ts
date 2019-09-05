@@ -1,12 +1,13 @@
-import teams from "./data/teams";
-import fixtures from "./data/fixtures";
+import teams from "./seed/teams";
+import fixtures from "./seed/fixtures";
 import { Team } from "../models/teams";
 import { Fixture } from "../models/fixtures";
 
 const cleanDb = async () => {
   try {
     console.log("succesfully cleared db");
-    return await Team.deleteMany({});
+    await Team.deleteMany({});
+    await Fixture.deleteMany({});
   } catch (err) {
     console.log("Error: occured", err);
     return err;
@@ -47,8 +48,8 @@ const seedFixture = async () => {
   }
 };
 
-const seed = () => {
-  cleanDb()
+const seed = async () => {
+  return await cleanDb()
     .then(async () => {
       await seedTeam();
       await seedFixture();

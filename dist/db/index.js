@@ -12,14 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const teams_1 = __importDefault(require("./data/teams"));
-const fixtures_1 = __importDefault(require("./data/fixtures"));
+const teams_1 = __importDefault(require("./seed/teams"));
+const fixtures_1 = __importDefault(require("./seed/fixtures"));
 const teams_2 = require("../models/teams");
 const fixtures_2 = require("../models/fixtures");
 const cleanDb = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("succesfully cleared db");
-        return yield teams_2.Team.deleteMany({});
+        yield teams_2.Team.deleteMany({});
+        yield fixtures_2.Fixture.deleteMany({});
     }
     catch (err) {
         console.log("Error: occured", err);
@@ -56,8 +57,8 @@ const seedFixture = () => __awaiter(void 0, void 0, void 0, function* () {
         return err;
     }
 });
-const seed = () => {
-    cleanDb()
+const seed = () => __awaiter(void 0, void 0, void 0, function* () {
+    return yield cleanDb()
         .then(() => __awaiter(void 0, void 0, void 0, function* () {
         yield seedTeam();
         yield seedFixture();
@@ -66,6 +67,6 @@ const seed = () => {
         .catch(err => {
         console.log({ err });
     });
-};
+});
 exports.default = seed;
 //# sourceMappingURL=index.js.map

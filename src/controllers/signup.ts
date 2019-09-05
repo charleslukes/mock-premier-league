@@ -12,7 +12,10 @@ export const signup = async (req: Request, res: Response) => {
     const { name, email } = req.body;
 
     let user = await User.findOne({ email });
-    if (user) return res.status(400).send(`Email already in use`);
+    if (user)
+      return res
+        .status(400)
+        .send({ data: { message: `Email already in use` } });
 
     user = await new User(req.body);
     const salt = await bcrypt.genSalt(10);
@@ -21,19 +24,22 @@ export const signup = async (req: Request, res: Response) => {
 
     const data = { name, email };
     const token = user.getAuthToken();
-    
+
     //saves the users token to my redis store
     req.session.key = token;
 
-    res.header("x-auth-token", token).send({
+    res.send({
       output: "sign up successfully",
-      data
+      data,
+      token
     });
   } catch (error) {
     const { message } = error;
     return res.status(400).send({
-      output: "sign up failed",
-      message
+      data: {
+        output: "sign up failed",
+        message
+      }
     });
   }
 };

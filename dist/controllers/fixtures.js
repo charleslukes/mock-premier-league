@@ -18,11 +18,11 @@ exports.view_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.view_completed_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const completedFixtures = yield fixtures_1.Fixture.find({ played: true }).populate("homeTeam awayTeam", "name coach -_id");
-    res.status(200).send(completedFixtures);
+    res.status(200).json(completedFixtures);
 });
 exports.view_pending_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const pendingFixtures = yield fixtures_1.Fixture.find({ played: false }).populate("homeTeam awayTeam", "name coach -_id");
-    res.status(200).send(pendingFixtures);
+    res.status(200).json(pendingFixtures);
 });
 exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { error } = fixture_validate_1.validateFixture(req.body);

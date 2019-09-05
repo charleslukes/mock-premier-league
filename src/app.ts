@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import config from "config";
 
 dotenv.config();
+
 const redisStore = connectRedis(session);
 const client = redis.createClient();
 const app = express();
@@ -18,18 +19,23 @@ if (!config.get("jwtPrivateKey")) {
   console.error("Fatal Error: jwtPrivateKey is not defined");
   process.exit(1);
 }
-// const connectionString =
-//   process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
+
+const connectionString =
+  process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
+
 mongoose
-  .connect("mongodb://localhost/premier_test", {
+  .connect(connectionString, {
     useNewUrlParser: true,
     useFindAndModify: false
   })
-  .then(() => {
-    seedDb();
+  .then(async () => {
+    process.env.NODE_ENV !== "test" && (await seedDb());
     console.log("connected to mongodb...");
   })
-  .catch(err => console.log({ error: err.message }));
+  .catch(err => {
+    console.log({ error: err.message });
+    process.exit(1);
+  });
 
 app.use(
   session({
@@ -39,7 +45,7 @@ app.use(
       host: "localhost",
       port: 6379,
       client: client,
-      ttl: 10
+      ttl: 260
     }),
     saveUninitialized: false,
     resave: false

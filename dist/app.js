@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -21,18 +30,20 @@ if (!config_1.default.get("jwtPrivateKey")) {
     console.error("Fatal Error: jwtPrivateKey is not defined");
     process.exit(1);
 }
-// const connectionString =
-//   process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
+const connectionString = process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
 mongoose_1.default
-    .connect("mongodb://localhost/premier_test", {
+    .connect(connectionString, {
     useNewUrlParser: true,
     useFindAndModify: false
 })
-    .then(() => {
-    index_1.default();
+    .then(() => __awaiter(void 0, void 0, void 0, function* () {
+    process.env.NODE_ENV !== "test" && (yield index_1.default());
     console.log("connected to mongodb...");
-})
-    .catch(err => console.log({ error: err.message }));
+}))
+    .catch(err => {
+    console.log({ error: err.message });
+    process.exit(1);
+});
 app.use(express_session_1.default({
     secret: config_1.default.get("jwtPrivateKey"),
     // create new redis store.
@@ -40,7 +51,7 @@ app.use(express_session_1.default({
         host: "localhost",
         port: 6379,
         client: client,
-        ttl: 10
+        ttl: 260
     }),
     saveUninitialized: false,
     resave: false
