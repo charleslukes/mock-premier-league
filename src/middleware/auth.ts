@@ -5,12 +5,24 @@ import { User } from "../models/user";
 
 async function auth(req: Request, res: Response, next: NextFunction) {
   try {
+    if (!req.session.key) {
+      return res.status(401).send({
+        data: { message: "Session over, Pls login..." }
+      });
+    }
+
     const payload = req.headers.authorization.split(" ")[1];
-    console.log("heyyyy", payload);
+
+    if (payload != req.session.key.token) {
+      return res.status(401).send({
+        data: { message: "Invalid Token" }
+      });
+    }
+
     if (!payload)
-      return res
-        .status(401)
-        .send({ data: { message: "access denied no token provided" } });
+      return res.status(401).send({
+        data: { message: "access denied no token provided" }
+      });
     const decoded: any = jwt.verify(payload, config.get("jwtPrivateKey"));
     const user = await User.findById(decoded._id);
     if (user) {

@@ -18,12 +18,21 @@ const user_1 = require("../models/user");
 function auth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            if (!req.session.key) {
+                return res.status(401).send({
+                    data: { message: "Session over, Pls login..." }
+                });
+            }
             const payload = req.headers.authorization.split(" ")[1];
-            console.log("heyyyy", payload);
+            if (payload != req.session.key.token) {
+                return res.status(401).send({
+                    data: { message: "Invalid Token" }
+                });
+            }
             if (!payload)
-                return res
-                    .status(401)
-                    .send({ data: { message: "access denied no token provided" } });
+                return res.status(401).send({
+                    data: { message: "access denied no token provided" }
+                });
             const decoded = jsonwebtoken_1.default.verify(payload, config_1.default.get("jwtPrivateKey"));
             const user = yield user_1.User.findById(decoded._id);
             if (user) {
