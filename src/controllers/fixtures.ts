@@ -1,12 +1,13 @@
 import { Fixture } from "../models/fixtures";
 import { Team } from "../models/teams";
 import { validateFixture } from "../validator/fixture_validate";
+
 import { Request, Response } from "express";
 
 export const view_fixtures = async (req: Request, res: Response) => {
   const fixtures = await Fixture.find().populate(
     "homeTeam awayTeam",
-    "name coach -_id"
+    "name coach link -_id"
   );
 
   res.status(200).send(fixtures);
@@ -31,6 +32,7 @@ export const view_pending_fixtures = async (req: Request, res: Response) => {
 };
 
 export const create_fixtures = async (req: Request, res: Response) => {
+  console.log(req.body);
   const { error } = validateFixture(req.body);
 
   if (error) return res.status(400).send(error.details[0].message);
@@ -89,9 +91,17 @@ export const delete_fixture = async (req: Request, res: Response) => {
   }
 };
 
-// I have not touched this yet
-export const getFixture = (req: Request, res: Response) => {
-  const { id } = req.query;
-  const fixture = Fixture.findById({ id }).exec;
-  res.send(fixture);
+export const getFixture = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const fixture = await Fixture.findOne({
+    link: `http://localhost:${process.env.PORT}/api/fixtures/${id}`
+  })
+    .populate("homeTeam awayTeam", "name coach -_id")
+    .select("-_id");
+
+  if (!fixture) {
+    return res.status(400).send({ data: { message: "Link is not available" } });
+  }
+
+  res.status(200).send(fixture);
 };

@@ -13,7 +13,7 @@ const fixtures_1 = require("../models/fixtures");
 const teams_1 = require("../models/teams");
 const fixture_validate_1 = require("../validator/fixture_validate");
 exports.view_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const fixtures = yield fixtures_1.Fixture.find().populate("homeTeam awayTeam", "name coach -_id");
+    const fixtures = yield fixtures_1.Fixture.find().populate("homeTeam awayTeam", "name coach link -_id");
     res.status(200).send(fixtures);
 });
 exports.view_completed_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -25,6 +25,7 @@ exports.view_pending_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, 
     res.status(200).json(pendingFixtures);
 });
 exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
     const { error } = fixture_validate_1.validateFixture(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);
@@ -70,10 +71,16 @@ exports.delete_fixture = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(400).send(`delete failed :()`);
     }
 });
-// I have not touched this yet
-exports.getFixture = (req, res) => {
-    const { id } = req.query;
-    const fixture = fixtures_1.Fixture.findById({ id }).exec;
-    res.send(fixture);
-};
+exports.getFixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const fixture = yield fixtures_1.Fixture.findOne({
+        link: `http://localhost:${process.env.PORT}/api/fixtures/${id}`
+    })
+        .populate("homeTeam awayTeam", "name coach -_id")
+        .select("-_id");
+    if (!fixture) {
+        return res.status(400).send({ data: { message: "Link is not available" } });
+    }
+    res.status(200).send(fixture);
+});
 //# sourceMappingURL=fixtures.js.map
