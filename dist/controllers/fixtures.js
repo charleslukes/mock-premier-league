@@ -30,10 +30,10 @@ exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, functi
     if (error)
         return res.status(400).send(error.details[0].message);
     const { homeTeam, awayTeam, homeScore, awayScore, time, stadium, played } = req.body;
-    const home = yield teams_1.Team.findById(homeTeam).select({ name: 1, coach: 1 });
+    const home = yield teams_1.Team.findById(homeTeam);
     if (!home)
         return res.status(400).send(`home Team doesn't exits`);
-    const away = yield teams_1.Team.findById(awayTeam).select({ name: 1, coach: 1 });
+    const away = yield teams_1.Team.findById(awayTeam);
     if (!away)
         return res.status(400).send(`away Team doesn't exits`);
     try {
@@ -54,8 +54,35 @@ exports.create_fixtures = (req, res) => __awaiter(void 0, void 0, void 0, functi
     }
 });
 exports.update_fixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { error } = fixture_validate_1.validateFixture(req.body);
+    if (error)
+        return res.status(400).send(error.details[0].message);
+    const { homeTeam, awayTeam, homeScore, awayScore, played } = req.body;
     try {
         const updateTeam = yield fixtures_1.Fixture.findByIdAndUpdate({ _id: req.params.id }, req.body);
+        const home = yield teams_1.Team.findById(homeTeam);
+        const away = yield teams_1.Team.findById(awayTeam);
+        // update the wins and losses if played is true
+        if (played) {
+            if (homeScore > awayScore) {
+                home.wins += 1;
+                away.losses += 1;
+                home.goals += homeScore;
+                away.goals += homeScore;
+            }
+            else if (homeScore < awayScore) {
+                home.losses += 1;
+                away.wins += 1;
+                away.goals += homeScore;
+                home.goals += homeScore;
+            }
+            else {
+                away.goals += homeScore;
+                home.goals += homeScore;
+            }
+            yield home.save();
+            yield away.save();
+        }
         res.status(200).send(`Fixture ${updateTeam._id} is updated succesfully`);
     }
     catch (error) {
