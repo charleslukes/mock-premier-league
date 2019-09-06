@@ -13,16 +13,18 @@ const teams_1 = require("../models/teams");
 const team_validate_1 = require("../validator/team_validate");
 exports.view_teams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const teams = yield teams_1.Team.find().sort({ name: 1 });
-        res.send(teams);
+        const teams = yield teams_1.Team.find({ isDeleted: false })
+            .sort({ name: 1 })
+            .select({
+            isDeleted: 0
+        });
+        res.status(200).send(teams);
     }
     catch (error) {
         res.status(400).send({ error: error.message });
     }
 });
 exports.create_teams = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // since only the admin can create team I need to get the token of the user
-    // but do this in a middleware and place it in your routes
     const { error } = team_validate_1.validateTeam(req.body);
     if (error)
         return res.status(400).send(error.details[0].message);
@@ -31,7 +33,7 @@ exports.create_teams = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (checkTeam)
         return res.status(404).send({ message: `Email already in use` });
     const newTeam = yield new teams_1.Team({
-        name: name.toLowerCase(),
+        name,
         email,
         coach,
         country,
@@ -48,16 +50,18 @@ exports.update_team = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(200).send(`Team ${updateTeam.name} is updated succesfully`);
     }
     catch (error) {
-        res.status(400).send(`update failed :()`);
+        res.status(400).send({ data: { message: `update failed :()`, error } });
     }
 });
 exports.delete_team = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const deleteTeam = yield teams_1.Team.findByIdAndDelete({ _id: req.params.id });
+        const deleteTeam = yield teams_1.Team.findById({ _id: req.params.id });
+        deleteTeam.isDeleted = true;
+        yield deleteTeam.save();
         res.status(200).send(`Team ${deleteTeam.name} is deleted succesfully`);
     }
     catch (error) {
-        res.status(400).send(`delete failed :()`);
+        res.status(400).send({ data: { message: `delete failed :()`, error } });
     }
 });
 //# sourceMappingURL=teams.js.map

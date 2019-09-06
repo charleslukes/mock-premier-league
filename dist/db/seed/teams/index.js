@@ -7,6 +7,9 @@ module.exports = [
         country: "England",
         founded: 1984,
         stadium_name: "shielfield",
+        wins: 13,
+        losses: 10,
+        goals: 23,
         stadium_capacity: "30000m"
     },
     {
@@ -16,6 +19,9 @@ module.exports = [
         country: "England",
         founded: 1989,
         stadium_name: "aston field",
+        wins: 9,
+        losses: 12,
+        goals: 15,
         stadium_capacity: "40000m"
     },
     {
@@ -25,6 +31,9 @@ module.exports = [
         country: "England",
         founded: 1980,
         stadium_name: "old traford",
+        wins: 18,
+        losses: 9,
+        goals: 32,
         stadium_capacity: "35000m"
     },
     {
@@ -34,6 +43,9 @@ module.exports = [
         country: "England",
         founded: 1978,
         stadium_name: "old traford",
+        wins: 19,
+        losses: 5,
+        goals: 36,
         stadium_capacity: "44000m"
     },
     {
@@ -43,6 +55,9 @@ module.exports = [
         country: "England",
         founded: 1976,
         stadium_name: "arsenalfield",
+        wins: 14,
+        losses: 12,
+        goals: 21,
         stadium_capacity: "40000m"
     },
     {
@@ -52,6 +67,9 @@ module.exports = [
         country: "England",
         founded: 1987,
         stadium_name: "liverpool field",
+        wins: 20,
+        losses: 7,
+        goals: 29,
         stadium_capacity: "60000m"
     },
     {
@@ -61,6 +79,9 @@ module.exports = [
         country: "England",
         founded: 1990,
         stadium_name: "city traford",
+        wins: 8,
+        losses: 15,
+        goals: 10,
         stadium_capacity: "38000m"
     },
     {
@@ -70,6 +91,9 @@ module.exports = [
         country: "England",
         founded: 1968,
         stadium_name: "old traford",
+        wins: 19,
+        losses: 9,
+        goals: 25,
         stadium_capacity: "49000m"
     },
     {
@@ -79,6 +103,9 @@ module.exports = [
         country: "England",
         founded: 1980,
         stadium_name: "bolton field",
+        wins: 17,
+        losses: 13,
+        goals: 17,
         stadium_capacity: "30000m"
     },
     {
@@ -88,6 +115,9 @@ module.exports = [
         country: "England",
         founded: 1998,
         stadium_name: "camp nou",
+        wins: 16,
+        losses: 18,
+        goals: 20,
         stadium_capacity: "50000m"
     },
     {
@@ -97,6 +127,9 @@ module.exports = [
         country: "England",
         founded: 1987,
         stadium_name: "liverpool field",
+        wins: 9,
+        losses: 16,
+        goals: 11,
         stadium_capacity: "60000m"
     },
     {
@@ -106,6 +139,9 @@ module.exports = [
         country: "England",
         founded: 1990,
         stadium_name: "city traford",
+        wins: 14,
+        losses: 16,
+        goals: 17,
         stadium_capacity: "38000m"
     },
     {
@@ -115,6 +151,9 @@ module.exports = [
         country: "England",
         founded: 1968,
         stadium_name: "old traford",
+        wins: 10,
+        losses: 19,
+        goals: 11,
         stadium_capacity: "49000m"
     },
     {
@@ -124,6 +163,9 @@ module.exports = [
         country: "England",
         founded: 1980,
         stadium_name: "bolton field",
+        wins: 17,
+        losses: 13,
+        goals: 22,
         stadium_capacity: "30000m"
     },
     {
@@ -133,6 +175,9 @@ module.exports = [
         country: "England",
         founded: 1998,
         stadium_name: "camp nou",
+        wins: 4,
+        losses: 20,
+        goals: 7,
         stadium_capacity: "50000m"
     }
 ];

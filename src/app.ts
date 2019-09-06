@@ -45,7 +45,7 @@ app.use(
       host: "localhost",
       port: 6379,
       client: client,
-      ttl: 60
+      ttl: 1800
     }),
     saveUninitialized: false,
     resave: false
@@ -57,7 +57,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use("/api", apiRouter);
+app.use("/api/v1", apiRouter);
 
 const port = process.env.PORT || 3005;
 app.listen(port, () => {

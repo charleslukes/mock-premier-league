@@ -4,17 +4,18 @@ import { Request, Response } from "express";
 
 export const view_teams = async (req: Request, res: Response) => {
   try {
-    const teams = await Team.find().sort({ name: 1 });
-    res.send(teams);
+    const teams = await Team.find({ isDeleted: false })
+      .sort({ name: 1 })
+      .select({
+        isDeleted: 0
+      });
+    res.status(200).send(teams);
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
 };
 
 export const create_teams = async (req: Request, res: Response) => {
-  // since only the admin can create team I need to get the token of the user
-  // but do this in a middleware and place it in your routes
-
   const { error } = validateTeam(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -33,7 +34,7 @@ export const create_teams = async (req: Request, res: Response) => {
     return res.status(404).send({ message: `Email already in use` });
 
   const newTeam = await new Team({
-    name: name.toLowerCase(),
+    name,
     email,
     coach,
     country,
@@ -55,15 +56,18 @@ export const update_team = async (req: Request, res: Response) => {
     );
     res.status(200).send(`Team ${updateTeam.name} is updated succesfully`);
   } catch (error) {
-    res.status(400).send(`update failed :()`);
+    res.status(400).send({ data: { message: `update failed :()`, error } });
   }
 };
 
 export const delete_team = async (req: Request, res: Response) => {
   try {
-    const deleteTeam = await Team.findByIdAndDelete({ _id: req.params.id });
+    const deleteTeam = await Team.findById({ _id: req.params.id });
+    deleteTeam.isDeleted = true;
+    await deleteTeam.save();
+
     res.status(200).send(`Team ${deleteTeam.name} is deleted succesfully`);
   } catch (error) {
-    res.status(400).send(`delete failed :()`);
+    res.status(400).send({ data: { message: `delete failed :()`, error } });
   }
 };

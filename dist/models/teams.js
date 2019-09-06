@@ -8,7 +8,11 @@ exports.TeamSchema = ts_mongoose_1.createSchema({
     country: ts_mongoose_1.Type.string(),
     founded: ts_mongoose_1.Type.number(),
     stadium_name: ts_mongoose_1.Type.string(),
-    stadium_capacity: ts_mongoose_1.Type.string()
+    stadium_capacity: ts_mongoose_1.Type.string(),
+    wins: ts_mongoose_1.Type.number({ default: 0 }),
+    losses: ts_mongoose_1.Type.number({ default: 0 }),
+    goals: ts_mongoose_1.Type.number({ default: 0 }),
+    isDeleted: ts_mongoose_1.Type.boolean({ default: false })
 });
 exports.Team = ts_mongoose_1.typedModel("Team", exports.TeamSchema);
 //# sourceMappingURL=teams.js.map

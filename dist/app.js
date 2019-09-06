@@ -51,7 +51,7 @@ app.use(express_session_1.default({
         host: "localhost",
         port: 6379,
         client: client,
-        ttl: 60
+        ttl: 1800
     }),
     saveUninitialized: false,
     resave: false
@@ -60,7 +60,7 @@ app.use(express_session_1.default({
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 // parse application/json
 app.use(body_parser_1.default.json());
-app.use("/api", routes_1.default);
+app.use("/api/v1", routes_1.default);
 const port = process.env.PORT || 3005;
 app.listen(port, () => {
     return console.log(`server running at port ${port}`);

@@ -6,11 +6,11 @@ export const validateFixture = (input: object) => {
   const schema = {
     homeTeam: myJoiObjectId().required(),
     awayTeam: myJoiObjectId().required(),
-    homeScore: Joi.number(),
-    awayScore: Joi.number(),
+    homeScore: Joi.number().required(),
+    awayScore: Joi.number().required(),
     time: Joi.string(),
     stadium: Joi.string(),
-    played: Joi.boolean()
+    played: Joi.boolean().required()
   };
 
   return Joi.validate(input, schema);
