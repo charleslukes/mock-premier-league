@@ -12,7 +12,7 @@ router
     .get("/", auth_1.default, fixtures_1.view_fixtures)
     .get("/complete", auth_1.default, fixtures_1.view_completed_fixtures)
     .get("/pend", auth_1.default, fixtures_1.view_pending_fixtures)
-    .get("/one", auth_1.default, fixtures_1.getFixture)
+    .get("/:id", auth_1.default, fixtures_1.getFixture)
     .post("/", [auth_1.default, admin_1.default], fixtures_1.create_fixtures)
     .put("/:id", [auth_1.default, admin_1.default], fixtures_1.update_fixture)
     .delete("/:id", [auth_1.default, admin_1.default], fixtures_1.delete_fixture);
