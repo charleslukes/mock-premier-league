@@ -16,7 +16,7 @@ export const login = async (req: Request, res: Response) => {
   const token = checkUser.getAuthToken();
 
   //save their session token when they login
-  req.session.key = token;
+  req.session.key = { token, data: checkUser };
 
   return res
     .status(200)

@@ -51,7 +51,7 @@ app.use(express_session_1.default({
         host: "localhost",
         port: 6379,
         client: client,
-        ttl: 260
+        ttl: 60
     }),
     saveUninitialized: false,
     resave: false

@@ -16,7 +16,7 @@ router
   .get("/", auth, view_fixtures)
   .get("/complete", auth, view_completed_fixtures)
   .get("/pend", auth, view_pending_fixtures)
-  .get("/one", auth, getFixture)
+  .get("/:id", auth, getFixture)
   .post("/", [auth, admin], create_fixtures)
   .put("/:id", [auth, admin], update_fixture)
   .delete("/:id", [auth, admin], delete_fixture);

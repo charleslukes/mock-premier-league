@@ -31,7 +31,7 @@ exports.create_teams = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (checkTeam)
         return res.status(404).send({ message: `Email already in use` });
     const newTeam = yield new teams_1.Team({
-        name,
+        name: name.toLowerCase(),
         email,
         coach,
         country,
