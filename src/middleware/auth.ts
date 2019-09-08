@@ -13,6 +13,8 @@ async function auth(req: Request, res: Response, next: NextFunction) {
 
     const decoded: any = jwt.verify(payload, config.get("jwtPrivateKey"));
     const user = await User.findById(decoded._id);
+    console.log(user);
+
     if (user) {
       //check the session store
       console.log({ session: req.session });

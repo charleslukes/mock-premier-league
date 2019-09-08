@@ -96,8 +96,7 @@ exports.update_fixture = (req, res) => __awaiter(void 0, void 0, void 0, functio
         }
         res.status(200).json({
             data: {
-                message: `Fixture ${_id} updated successfully`,
-                output: updateFixture
+                message: `Fixture ${_id} updated successfully`
             }
         });
     }
@@ -112,8 +111,7 @@ exports.delete_fixture = (req, res) => __awaiter(void 0, void 0, void 0, functio
         });
         res.status(200).json({
             data: {
-                message: `Fixture ${deleteFixture._id} deleted successfully`,
-                output: deleteFixture
+                message: `Fixture ${deleteFixture._id} deleted successfully`
             }
         });
     }
@@ -124,7 +122,7 @@ exports.delete_fixture = (req, res) => __awaiter(void 0, void 0, void 0, functio
 exports.getFixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const fixture = yield fixtures_1.Fixture.findOne({
-        link: `http://localhost:${process.env.PORT}/api/fixtures/${id}`
+        link: `http://localhost:${process.env.PORT}/api/v1/fixtures/${id}`
     })
         .populate("homeTeam awayTeam", "name coach -_id")
         .select("-_id");

@@ -121,8 +121,7 @@ export const update_fixture = async (req: Request, res: Response) => {
 
     res.status(200).json({
       data: {
-        message: `Fixture ${_id} updated successfully`,
-        output: updateFixture
+        message: `Fixture ${_id} updated successfully`
       }
     });
   } catch (error) {
@@ -137,8 +136,7 @@ export const delete_fixture = async (req: Request, res: Response) => {
     });
     res.status(200).json({
       data: {
-        message: `Fixture ${deleteFixture._id} deleted successfully`,
-        output: deleteFixture
+        message: `Fixture ${deleteFixture._id} deleted successfully`
       }
     });
   } catch (error) {
@@ -149,7 +147,7 @@ export const delete_fixture = async (req: Request, res: Response) => {
 export const getFixture = async (req: Request, res: Response) => {
   const { id } = req.params;
   const fixture = await Fixture.findOne({
-    link: `http://localhost:${process.env.PORT}/api/fixtures/${id}`
+    link: `http://localhost:${process.env.PORT}/api/v1/fixtures/${id}`
   })
     .populate("homeTeam awayTeam", "name coach -_id")
     .select("-_id");

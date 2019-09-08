@@ -11,7 +11,9 @@ const FixtureSchema = createSchema({
   played: Type.optionalBoolean({ default: false }),
   link: Type.mixed({
     default: () =>
-      `http://localhost:${process.env.PORT}/api/fixtures/${shortid.generate()}`
+      `http://localhost:${
+        process.env.PORT
+      }/api/v1/fixtures/${shortid.generate()}`
   })
 });
 

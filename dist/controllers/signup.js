@@ -34,7 +34,7 @@ exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const message = { name, email };
         const token = user.getAuthToken();
         //saves the users token to my redis store
-        req.session[user._id] = { token, message };
+        req.session[user._id] = { token, data: message };
         res.send({
             data: {
                 output: "sign up successfully",

@@ -25,6 +25,7 @@ function auth(req, res, next) {
                 });
             const decoded = jsonwebtoken_1.default.verify(payload, config_1.default.get("jwtPrivateKey"));
             const user = yield user_1.User.findById(decoded._id);
+            console.log(user);
             if (user) {
                 //check the session store
                 console.log({ session: req.session });

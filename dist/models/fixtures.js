@@ -14,7 +14,7 @@ const FixtureSchema = ts_mongoose_1.createSchema({
     stadium: ts_mongoose_1.Type.string(),
     played: ts_mongoose_1.Type.optionalBoolean({ default: false }),
     link: ts_mongoose_1.Type.mixed({
-        default: () => `http://localhost:${process.env.PORT}/api/fixtures/${shortid_1.default.generate()}`
+        default: () => `http://localhost:${process.env.PORT}/api/v1/fixtures/${shortid_1.default.generate()}`
     })
 });
 exports.Fixture = ts_mongoose_1.typedModel("Fixture", FixtureSchema);

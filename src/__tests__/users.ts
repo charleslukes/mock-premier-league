@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import app from "../app";
 import { User } from "../models/user";
 import { Team } from "../models/teams";
-import { Fixture } from "../models/fixtures";
 import auth from "../middleware/auth";
 import jwt from "jsonwebtoken";
 import config from "config";
