@@ -18,4 +18,14 @@ exports.validateFixture = (input) => {
     };
     return joi_1.default.validate(input, schema);
 };
+exports.validateUpdateFixture = (input) => {
+    const schema = {
+        homeScore: joi_1.default.number().required(),
+        awayScore: joi_1.default.number().required(),
+        time: joi_1.default.string(),
+        stadium: joi_1.default.string(),
+        played: joi_1.default.boolean().required()
+    };
+    return joi_1.default.validate(input, schema);
+};
 //# sourceMappingURL=fixture_validate.js.map

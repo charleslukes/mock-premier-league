@@ -29,7 +29,10 @@ exports.validateTeam = (input) => {
             .min(3)
             .max(255)
             .required(),
-        founded: joi_1.default.number().required()
+        founded: joi_1.default.number().required(),
+        wins: joi_1.default.number(),
+        losses: joi_1.default.number(),
+        goals: joi_1.default.number()
     };
     return joi_1.default.validate(input, schema);
 };

@@ -15,3 +15,15 @@ export const validateFixture = (input: object) => {
 
   return Joi.validate(input, schema);
 };
+
+export const validateUpdateFixture = (input: object) => {
+  const schema = {
+    homeScore: Joi.number().required(),
+    awayScore: Joi.number().required(),
+    time: Joi.string(),
+    stadium: Joi.string(),
+    played: Joi.boolean().required()
+  };
+
+  return Joi.validate(input, schema);
+};

@@ -25,7 +25,10 @@ export const validateTeam = (input: object) => {
       .min(3)
       .max(255)
       .required(),
-    founded: Joi.number().required()
+    founded: Joi.number().required(),
+    wins: Joi.number(),
+    losses: Joi.number(),
+    goals: Joi.number()
   };
 
   return Joi.validate(input, schema);
