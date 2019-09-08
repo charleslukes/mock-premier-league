@@ -6,7 +6,6 @@ import {
 } from "../validator/fixture_validate";
 
 import { Request, Response } from "express";
-import fixtures = require("../db/seed/fixtures");
 
 export const view_fixtures = async (req: Request, res: Response) => {
   const fixtures = await Fixture.find().populate(
