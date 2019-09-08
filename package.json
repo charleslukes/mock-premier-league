@@ -23,6 +23,8 @@
     "@types/jest": "^24.0.18",
     "jest": "^24.9.0",
     "nodemon": "^1.19.1",
+    "supertest": "^4.0.2",
+    "supertest-session": "^4.0.0",
     "ts-jest": "^24.0.2",
     "tslint": "^5.19.0",
     "typescript": "^3.6.2"
@@ -55,7 +57,6 @@
     "objectid": "^3.2.1",
     "redis": "^2.8.0",
     "shortid": "^2.2.14",
-    "supertest": "^4.0.2",
     "ts-mongoose": "0.0.19"
   }
 }

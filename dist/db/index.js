@@ -14,13 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const teams_1 = __importDefault(require("./seed/teams"));
 const fixtures_1 = __importDefault(require("./seed/fixtures"));
+const users_1 = __importDefault(require("./seed/users"));
 const teams_2 = require("../models/teams");
 const fixtures_2 = require("../models/fixtures");
+const user_1 = require("../models/user");
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const cleanDb = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log("succesfully cleared db");
         yield teams_2.Team.deleteMany({});
         yield fixtures_2.Fixture.deleteMany({});
+        yield user_1.User.deleteMany({});
     }
     catch (err) {
         console.log("Error: occured", err);
@@ -34,6 +38,22 @@ const seedTeam = () => __awaiter(void 0, void 0, void 0, function* () {
             return newTeam.save();
         }));
         const res = yield Promise.all(allTeams);
+        return res;
+    }
+    catch (err) {
+        console.log({ err });
+        return err;
+    }
+});
+const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const allUser = users_1.default.map((user) => __awaiter(void 0, void 0, void 0, function* () {
+            const salt = yield bcrypt_1.default.genSalt(10);
+            user.password = yield bcrypt_1.default.hash(user.password, salt);
+            const newUser = yield new user_1.User(user);
+            return newUser.save();
+        }));
+        const res = yield Promise.all(allUser);
         return res;
     }
     catch (err) {
@@ -61,6 +81,7 @@ const seed = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield cleanDb()
         .then(() => __awaiter(void 0, void 0, void 0, function* () {
         yield seedTeam();
+        yield seedUser();
         yield seedFixture();
     }))
         .then(() => console.log(`Database has been seeded`))

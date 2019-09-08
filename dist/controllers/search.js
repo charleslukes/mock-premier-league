@@ -14,28 +14,31 @@ const teams_1 = require("../models/teams");
 exports.searchTeam = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     let value;
-    let num;
-    if (+id) {
-        num = id;
-    }
-    else {
-        value = new RegExp(id, "gi");
-    }
     try {
-        const team = yield teams_1.Team.find().or([
-            { name: { $regex: value } },
-            { coach: { $regex: value } },
-            { stadium_name: { $regex: value } },
-            { founded: num }
-        ]);
-        if (team)
-            return res.status(200).send({ data: { message: team } });
-        if (!team) {
-            return res.status(400).send(`Invalid Input`);
+        if (+id) {
+            const team = yield teams_1.Team.find({ founded: id });
+            if (team.length > 0)
+                return res.status(200).json({ data: { message: team } });
+            if (!!team) {
+                return res.status(400).json(`Invalid Input`);
+            }
+        }
+        else {
+            value = new RegExp(id, "gi");
+            const team = yield teams_1.Team.find().or([
+                { name: { $regex: value } },
+                { coach: { $regex: value } },
+                { stadium_name: { $regex: value } }
+            ]);
+            if (team.length > 0)
+                return res.status(200).json({ data: { message: team } });
+            if (!!team) {
+                return res.status(400).json({ data: { message: `Invalid Input` } });
+            }
         }
     }
     catch (error) {
-        return res.status(400).send({ error });
+        return res.status(400).json({ error });
     }
 });
 exports.searchFixture = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -49,14 +52,14 @@ exports.searchFixture = (req, res) => __awaiter(void 0, void 0, void 0, function
                 return elem;
             }
         });
-        if (fixtures)
-            return res.status(200).send({ data: { message: getFixtures } });
-        if (!fixtures) {
-            return res.status(400).send(`Invalid Input`);
+        if (getFixtures.length > 0)
+            return res.status(200).json({ data: { message: getFixtures } });
+        if (!!getFixtures) {
+            return res.status(400).json({ data: { message: `Invalid Input` } });
         }
     }
     catch (error) {
-        return res.status(400).send({ error });
+        return res.status(400).json({ error });
     }
 });
 //# sourceMappingURL=search.js.map

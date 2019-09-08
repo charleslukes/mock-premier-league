@@ -18,17 +18,7 @@ const user_1 = require("../models/user");
 function auth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            if (!req.session.key) {
-                return res.status(401).send({
-                    data: { message: "Session over, Pls login..." }
-                });
-            }
             const payload = req.headers.authorization.split(" ")[1];
-            if (payload != req.session.key.token) {
-                return res.status(401).send({
-                    data: { message: "Invalid Token" }
-                });
-            }
             if (!payload)
                 return res.status(401).send({
                     data: { message: "access denied no token provided" }
@@ -36,6 +26,18 @@ function auth(req, res, next) {
             const decoded = jsonwebtoken_1.default.verify(payload, config_1.default.get("jwtPrivateKey"));
             const user = yield user_1.User.findById(decoded._id);
             if (user) {
+                //check the session store
+                console.log({ session: req.session });
+                if (!req.session[user._id]) {
+                    return res.status(401).send({
+                        data: { message: "Session over, Pls login..." }
+                    });
+                }
+                if (payload != req.session[user._id].token) {
+                    return res.status(401).send({
+                        data: { message: "Invalid Token" }
+                    });
+                }
                 req["checkUser"] = user;
                 next();
             }
@@ -44,7 +46,8 @@ function auth(req, res, next) {
             }
         }
         catch (error) {
-            res.status(400).send(error);
+            console.log(error);
+            res.status(400).send({ data: { error } });
         }
     });
 }

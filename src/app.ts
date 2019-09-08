@@ -29,7 +29,9 @@ mongoose
     useFindAndModify: false
   })
   .then(async () => {
-    process.env.NODE_ENV !== "test" && (await seedDb());
+    process.env.NODE_ENV !== "test" &&
+      process.env.NODE_ENV !== "prod" &&
+      (await seedDb());
     console.log("connected to mongodb...");
   })
   .catch(err => {

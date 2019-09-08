@@ -37,7 +37,9 @@ mongoose_1.default
     useFindAndModify: false
 })
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
-    process.env.NODE_ENV !== "test" && (yield index_1.default());
+    process.env.NODE_ENV !== "test" &&
+        process.env.NODE_ENV !== "prod" &&
+        (yield index_1.default());
     console.log("connected to mongodb...");
 }))
     .catch(err => {

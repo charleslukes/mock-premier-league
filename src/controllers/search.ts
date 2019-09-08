@@ -7,29 +7,33 @@ export const searchTeam = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   let value: RegExp;
-  let num: string;
-
-  if (+id) {
-    num = id;
-  } else {
-    value = new RegExp(id, "gi");
-  }
-
   try {
-    const team = await Team.find().or([
-      { name: { $regex: value } },
-      { coach: { $regex: value } },
-      { stadium_name: { $regex: value } },
-      { founded: num }
-    ]);
+    if (+id) {
+      const team = await Team.find({ founded: id });
+      if (team.length > 0)
+        return res.status(200).json({ data: { message: team } });
 
-    if (team) return res.status(200).send({ data: { message: team } });
+      if (!!team) {
+        return res.status(400).json(`Invalid Input`);
+      }
+    } else {
+      value = new RegExp(id, "gi");
 
-    if (!team) {
-      return res.status(400).send(`Invalid Input`);
+      const team = await Team.find().or([
+        { name: { $regex: value } },
+        { coach: { $regex: value } },
+        { stadium_name: { $regex: value } }
+      ]);
+
+      if (team.length > 0)
+        return res.status(200).json({ data: { message: team } });
+
+      if (!!team) {
+        return res.status(400).json({ data: { message: `Invalid Input` } });
+      }
     }
   } catch (error) {
-    return res.status(400).send({ error });
+    return res.status(400).json({ error });
   }
 };
 
@@ -52,14 +56,13 @@ export const searchFixture = async (req: Request, res: Response) => {
         return elem;
       }
     });
+    if (getFixtures.length > 0)
+      return res.status(200).json({ data: { message: getFixtures } });
 
-    if (fixtures)
-      return res.status(200).send({ data: { message: getFixtures } });
-
-    if (!fixtures) {
-      return res.status(400).send(`Invalid Input`);
+    if (!!getFixtures) {
+      return res.status(400).json({ data: { message: `Invalid Input` } });
     }
   } catch (error) {
-    return res.status(400).send({ error });
+    return res.status(400).json({ error });
   }
 };

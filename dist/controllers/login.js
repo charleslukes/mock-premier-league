@@ -25,7 +25,7 @@ exports.login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     // remeber you need to send a token in the request header
     const token = checkUser.getAuthToken();
     //save their session token when they login
-    req.session.key = { token, data: checkUser };
+    req.session[checkUser._id] = { token, data: checkUser };
     return res
         .status(200)
         .send({ data: { message: `Welcome ${checkUser.name}`, token } });

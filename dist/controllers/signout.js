@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.signout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    req.session.key = false;
+    req.session[req["checkUser"]._id] = false;
     return res.status(200).send({
         data: {
             message: "signed out successfully"

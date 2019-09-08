@@ -22,16 +22,18 @@ export const signup = async (req: Request, res: Response) => {
     user.password = await bcrypt.hash(user.password, salt);
     await user.save();
 
-    const data = { name, email };
+    const message = { name, email };
     const token = user.getAuthToken();
 
     //saves the users token to my redis store
-    req.session.key = { token, data };
+    req.session[user._id] = { token, message };
 
     res.send({
-      output: "sign up successfully",
-      data,
-      token
+      data: {
+        output: "sign up successfully",
+        message,
+        token
+      }
     });
   } catch (error) {
     const { message } = error;
