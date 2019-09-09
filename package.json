@@ -7,7 +7,7 @@
   "description": "A mock api for premier league",
   "main": "dist/app.js",
   "scripts": {
-    "start": "NODE_ENV=production node ./dist/app.js",
+    "start": "NODE_ENV=production node ../dist/app.js",
     "devstart": "nodemon dist/app.js",
     "test": "jest"
   },
