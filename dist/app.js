@@ -22,15 +22,14 @@ const index_1 = __importDefault(require("./db/index"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
-const config_1 = __importDefault(require("config"));
 dotenv_1.default.config();
 const redisStore = connect_redis_1.default(express_session_1.default);
 const client = redis_1.default.createClient();
 const app = express_1.default();
-if (!config_1.default.get("jwtPrivateKey")) {
-    console.error("Fatal Error: jwtPrivateKey is not defined");
-    process.exit(1);
-}
+// if (!config.get("process.env.JWT_PRIVATE_KEY")) {
+//   console.error("Fatal Error: process.env.JWT_PRIVATE_KEY is not defined");
+//   process.exit(1);
+// }
 const connectionString = process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
 mongoose_1.default
     .connect(connectionString, {
@@ -48,7 +47,7 @@ mongoose_1.default
 app.use(cors_1.default());
 app.use(helmet_1.default());
 app.use(express_session_1.default({
-    secret: config_1.default.get("jwtPrivateKey"),
+    secret: process.env.JWT_PRIVATE_KEY,
     // create new redis store.
     store: new redisStore({
         host: "localhost",

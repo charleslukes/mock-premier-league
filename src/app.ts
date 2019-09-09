@@ -9,7 +9,6 @@ import seedDb from "./db/index";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import cors from "cors";
-import config from "config";
 
 dotenv.config();
 
@@ -17,10 +16,10 @@ const redisStore = connectRedis(session);
 const client = redis.createClient();
 const app = express();
 
-if (!config.get("jwtPrivateKey")) {
-  console.error("Fatal Error: jwtPrivateKey is not defined");
-  process.exit(1);
-}
+// if (!config.get("process.env.JWT_PRIVATE_KEY")) {
+//   console.error("Fatal Error: process.env.JWT_PRIVATE_KEY is not defined");
+//   process.exit(1);
+// }
 
 const connectionString =
   process.env.NODE_ENV === "test" ? process.env.TEST : process.env.PROD;
@@ -44,7 +43,7 @@ app.use(helmet());
 
 app.use(
   session({
-    secret: config.get("jwtPrivateKey"),
+    secret: process.env.JWT_PRIVATE_KEY,
     // create new redis store.
     store: new redisStore({
       host: "localhost",

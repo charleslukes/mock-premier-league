@@ -10,7 +10,7 @@ function auth(req, res, next) {
     if (!token)
         return res.status(401).send("access denied no token provided");
     try {
-        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.get("jwtPrivateKey"));
+        const decoded = jsonwebtoken_1.default.verify(token, config_1.default.get("process.env.JWT_PRIVATE_KEY"));
         req["checkUser"] = decoded;
         next();
     }

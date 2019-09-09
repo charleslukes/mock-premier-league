@@ -17,8 +17,8 @@ dotenv_1.default.config();
 const redisStore = connect_redis_1.default(express_session_1.default);
 const client = redis_1.default.createClient();
 const app = express_1.default();
-if (!config_1.default.get("jwtPrivateKey")) {
-    console.error("Fatal Error: jwtPrivateKey is not defined");
+if (!config_1.default.get("process.env.JWT_PRIVATE_KEY")) {
+    console.error("Fatal Error: process.env.JWT_PRIVATE_KEY is not defined");
     process.exit(1);
 }
 console.log("hiiii", process.env.TEST, process.env.PROD);
@@ -37,7 +37,7 @@ mongoose_1.default
     process.exit(1);
 });
 app.use(express_session_1.default({
-    secret: config_1.default.get("jwtPrivateKey"),
+    secret: config_1.default.get("process.env.JWT_PRIVATE_KEY"),
     // create new redis store.
     store: new redisStore({
         host: "localhost",
