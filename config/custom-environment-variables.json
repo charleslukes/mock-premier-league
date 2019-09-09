@@ -1,4 +1,3 @@
 {
-  "jwtPrivateKey": "app_tsjwtprivate",
-  "NODE_ENV": "production"
+  "jwtPrivateKey": "app_tsjwtprivate"
 }
