@@ -1,6 +1,9 @@
 {
   "name": "mock-premier-league",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.15.3"
+  },
   "description": "A mock api for premier league",
   "main": "dist/app.js",
   "scripts": {
@@ -32,8 +35,10 @@
     "@types/bcrypt": "^3.0.0",
     "@types/config": "0.0.34",
     "@types/connect-redis": "0.0.11",
+    "@types/cors": "^2.8.6",
     "@types/dotenv": "^6.1.1",
     "@types/express-session": "^1.15.14",
+    "@types/helmet": "0.0.44",
     "@types/joi": "^14.3.3",
     "@types/jsonwebtoken": "^8.3.3",
     "@types/mongoose": "^5.5.16",
@@ -43,9 +48,11 @@
     "body-parser": "^1.19.0",
     "config": "^3.2.2",
     "connect-redis": "^4.0.2",
+    "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
+    "helmet": "^3.21.0",
     "joi": "^14.3.1",
     "joi-objectid": "^2.0.0",
     "jsonwebtoken": "^8.5.1",

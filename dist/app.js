@@ -21,6 +21,8 @@ const routes_1 = __importDefault(require("./routes"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const index_1 = __importDefault(require("./db/index"));
 const body_parser_1 = __importDefault(require("body-parser"));
+const helmet_1 = __importDefault(require("helmet"));
+const cors_1 = __importDefault(require("cors"));
 const config_1 = __importDefault(require("config"));
 dotenv_1.default.config();
 const redisStore = connect_redis_1.default(express_session_1.default);
@@ -37,15 +39,15 @@ mongoose_1.default
     useFindAndModify: false
 })
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
-    process.env.NODE_ENV !== "test" &&
-        process.env.NODE_ENV !== "prod" &&
-        (yield index_1.default());
+    process.env.NODE_ENV !== "test" && (yield index_1.default());
     console.log("connected to mongodb...");
 }))
     .catch(err => {
     console.log({ error: err.message });
     process.exit(1);
 });
+app.use(cors_1.default());
+app.use(helmet_1.default());
 app.use(express_session_1.default({
     secret: config_1.default.get("jwtPrivateKey"),
     // create new redis store.
