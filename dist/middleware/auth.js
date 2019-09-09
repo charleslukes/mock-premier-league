@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = __importDefault(require("config"));
 const user_1 = require("../models/user");
 function auth(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -22,7 +21,7 @@ function auth(req, res, next) {
                 return res.status(401).send({
                     data: { message: "access denied no token provided" }
                 });
-            const decoded = jsonwebtoken_1.default.verify(payload, config_1.default.get("jwtPrivateKey"));
+            const decoded = jsonwebtoken_1.default.verify(payload, process.env.JWT_PRIVATE_KEY);
             const user = yield user_1.User.findById(decoded._id);
             console.log(user);
             if (user) {

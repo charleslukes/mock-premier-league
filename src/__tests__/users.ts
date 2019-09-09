@@ -5,7 +5,6 @@ import { User } from "../models/user";
 import { Team } from "../models/teams";
 import auth from "../middleware/auth";
 import jwt from "jsonwebtoken";
-import config from "config";
 import { Request, Response, NextFunction } from "express";
 import seed from "../db";
 
@@ -148,7 +147,7 @@ mockedAuth.mockImplementation(
           data: { message: "access denied no token provided" }
         });
 
-      const decoded: any = jwt.verify(payload, config.get("jwtPrivateKey"));
+      const decoded: any = jwt.verify(payload, process.env.JWT_PRIVATE_KEY);
 
       //say the user has already logged in / sign up
       session[decoded._id] = { token: payload };

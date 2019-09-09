@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import config from "config";
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/user";
 
@@ -11,7 +10,7 @@ async function auth(req: Request, res: Response, next: NextFunction) {
         data: { message: "access denied no token provided" }
       });
 
-    const decoded: any = jwt.verify(payload, config.get("jwtPrivateKey"));
+    const decoded: any = jwt.verify(payload, process.env.JWT_PRIVATE_KEY);
     const user = await User.findById(decoded._id);
     console.log(user);
 

@@ -1,6 +1,5 @@
 import { createSchema, Type, typedModel } from "ts-mongoose";
 import jwt from "jsonwebtoken";
-import config from "config";
 
 const UserSchema = createSchema({
   name: Type.string(),
@@ -15,7 +14,7 @@ const UserSchema = createSchema({
 UserSchema.methods.getAuthToken = function() {
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
-    config.get("jwtPrivateKey")
+    process.env.JWT_PRIVATE_KEY
   );
   return token;
 };

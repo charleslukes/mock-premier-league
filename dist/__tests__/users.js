@@ -18,7 +18,6 @@ const user_1 = require("../models/user");
 const teams_1 = require("../models/teams");
 const auth_1 = __importDefault(require("../middleware/auth"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const config_1 = __importDefault(require("config"));
 const db_1 = __importDefault(require("../db"));
 let token;
 let adminToken;
@@ -144,7 +143,7 @@ mockedAuth.mockImplementation((req, res, next) => __awaiter(this, void 0, void 0
             return res.status(401).send({
                 data: { message: "access denied no token provided" }
             });
-        const decoded = jsonwebtoken_1.default.verify(payload, config_1.default.get("jwtPrivateKey"));
+        const decoded = jsonwebtoken_1.default.verify(payload, process.env.JWT_PRIVATE_KEY);
         //say the user has already logged in / sign up
         session[decoded._id] = { token: payload };
         if (decoded) {
