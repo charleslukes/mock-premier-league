@@ -1,10 +1,9 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -19,7 +18,7 @@ const teams_2 = require("../models/teams");
 const fixtures_2 = require("../models/fixtures");
 const user_1 = require("../models/user");
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const cleanDb = () => __awaiter(void 0, void 0, void 0, function* () {
+const cleanDb = () => __awaiter(this, void 0, void 0, function* () {
     try {
         console.log("succesfully cleared db");
         yield teams_2.Team.deleteMany({});
@@ -31,9 +30,9 @@ const cleanDb = () => __awaiter(void 0, void 0, void 0, function* () {
         return err;
     }
 });
-const seedTeam = () => __awaiter(void 0, void 0, void 0, function* () {
+const seedTeam = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const allTeams = teams_1.default.map((team) => __awaiter(void 0, void 0, void 0, function* () {
+        const allTeams = teams_1.default.map((team) => __awaiter(this, void 0, void 0, function* () {
             const newTeam = yield new teams_2.Team(team);
             return newTeam.save();
         }));
@@ -45,9 +44,9 @@ const seedTeam = () => __awaiter(void 0, void 0, void 0, function* () {
         return err;
     }
 });
-const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
+const seedUser = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const allUser = users_1.default.map((user) => __awaiter(void 0, void 0, void 0, function* () {
+        const allUser = users_1.default.map((user) => __awaiter(this, void 0, void 0, function* () {
             const salt = yield bcrypt_1.default.genSalt(10);
             user.password = yield bcrypt_1.default.hash(user.password, salt);
             const newUser = yield new user_1.User(user);
@@ -61,12 +60,12 @@ const seedUser = () => __awaiter(void 0, void 0, void 0, function* () {
         return err;
     }
 });
-const seedFixture = () => __awaiter(void 0, void 0, void 0, function* () {
+const seedFixture = () => __awaiter(this, void 0, void 0, function* () {
     try {
-        const allfixtures = fixtures_1.default.map((fixture) => __awaiter(void 0, void 0, void 0, function* () {
+        const allfixtures = fixtures_1.default.map((fixture) => __awaiter(this, void 0, void 0, function* () {
             const hometeam = yield teams_2.Team.findOne({ name: fixture.homeTeam }).exec();
             const awayteam = yield teams_2.Team.findOne({ name: fixture.awayTeam }).exec();
-            const newFixtures = yield new fixtures_2.Fixture(Object.assign(Object.assign({}, fixture), { homeTeam: hometeam.id, awayTeam: awayteam.id }));
+            const newFixtures = yield new fixtures_2.Fixture(Object.assign({}, fixture, { homeTeam: hometeam.id, awayTeam: awayteam.id }));
             yield newFixtures.save();
         }));
         const res = yield Promise.all(allfixtures);
@@ -77,9 +76,9 @@ const seedFixture = () => __awaiter(void 0, void 0, void 0, function* () {
         return err;
     }
 });
-const seed = () => __awaiter(void 0, void 0, void 0, function* () {
+const seed = () => __awaiter(this, void 0, void 0, function* () {
     return yield cleanDb()
-        .then(() => __awaiter(void 0, void 0, void 0, function* () {
+        .then(() => __awaiter(this, void 0, void 0, function* () {
         yield seedTeam();
         yield seedUser();
         yield seedFixture();

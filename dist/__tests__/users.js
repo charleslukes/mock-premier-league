@@ -1,10 +1,9 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -28,7 +27,7 @@ let teamB;
 let fixturesId;
 let fixtureLink;
 let session;
-beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
+beforeAll(() => __awaiter(this, void 0, void 0, function* () {
     yield user_1.User.deleteMany({});
     const user = yield supertest_1.default(app_1.default)
         .post("/api/v1/users/signup")
@@ -42,7 +41,7 @@ beforeAll(() => __awaiter(void 0, void 0, void 0, function* () {
     teamA = yield teams_1.Team.findOne({ name: "Brimingham City" });
     teamB = yield teams_1.Team.findOne({ name: "Fulham" });
 }));
-afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
+afterAll(() => __awaiter(this, void 0, void 0, function* () {
     yield mongoose_1.default.connection.close();
 }));
 describe("SignUp Routes", () => {
@@ -135,7 +134,7 @@ describe("Login Routes", () => {
 //mocking the auth middleware
 jest.mock("../middleware/auth");
 const mockedAuth = auth_1.default;
-mockedAuth.mockImplementation((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+mockedAuth.mockImplementation((req, res, next) => __awaiter(this, void 0, void 0, function* () {
     //supertest sees req.session as undefined so had to mock it
     //session store
     session = {};
