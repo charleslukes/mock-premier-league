@@ -7,6 +7,8 @@ import apiRouter from "./routes";
 import dotenv from "dotenv";
 import seedDb from "./db/index";
 import bodyParser from "body-parser";
+import helmet from "helmet";
+import cors from "cors";
 import config from "config";
 
 dotenv.config();
@@ -29,15 +31,16 @@ mongoose
     useFindAndModify: false
   })
   .then(async () => {
-    process.env.NODE_ENV !== "test" &&
-      process.env.NODE_ENV !== "prod" &&
-      (await seedDb());
+    process.env.NODE_ENV !== "test" && (await seedDb());
     console.log("connected to mongodb...");
   })
   .catch(err => {
     console.log({ error: err.message });
     process.exit(1);
   });
+
+app.use(cors());
+app.use(helmet());
 
 app.use(
   session({
