@@ -24,7 +24,7 @@ const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const redisStore = connect_redis_1.default(express_session_1.default);
-const client = redis_1.default.createClient();
+const client = redis_1.default.createClient(process.env.REDIS_URL);
 const app = express_1.default();
 // if (!config.get("process.env.JWT_PRIVATE_KEY")) {
 //   console.error("Fatal Error: process.env.JWT_PRIVATE_KEY is not defined");

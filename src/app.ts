@@ -13,7 +13,7 @@ import cors from "cors";
 dotenv.config();
 
 const redisStore = connectRedis(session);
-const client = redis.createClient();
+const client = redis.createClient(process.env.REDIS_URL);
 const app = express();
 
 // if (!config.get("process.env.JWT_PRIVATE_KEY")) {
